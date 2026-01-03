@@ -1,0 +1,65 @@
+/* src/index.css */
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-item:hover {
+  color: #ffcc00;
+  transform: translateY(-3px);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+  color: #1877f2;
+}
+
+.icon-style {
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon-style:hover {
+  color: #ffcc00;
+}
+
+.logout-style {
+  background: white;
+  color: #1877f2;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logout-style:hover {
+  transform: translateY(-2px);
+}
+
+.cart-style {
+  position: relative;
+  color: white;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.cart-style:hover {
+  color: #ffcc00;
+}
+

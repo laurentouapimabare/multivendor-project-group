@@ -1,0 +1,10 @@
+{
+  "name": "multivendor-marketplace",
+  "version": "1.0.0",
+  "scripts": {
+    "install-frontend": "cd Frontend && npm install",
+    "install-backend": "cd Backend && npm install",
+    "build-frontend": "cd Frontend && npm run build",
+    "start": "cd Backend && npm start"
+  }
+}
