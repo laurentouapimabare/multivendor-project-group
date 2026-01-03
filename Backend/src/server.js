@@ -39,34 +39,25 @@ app.use("/api/auth", authRoutes);
 // Servir le Frontend en Production
 // ======================
 if (process.env.NODE_ENV === "production") {
-  // Chemin vers le dossier dist du frontend
-  const frontendPath = path.join(__dirname, "../../Frontend/dist");
-  
-  // Servir les fichiers statiques
+  // Assure-toi que ton frontend est buildé dans le dossier dist
+  const frontendPath = path.join(__dirname, "../Frontend/dist");
+
   app.use(express.static(frontendPath));
-  
-  // Toutes les routes qui ne sont pas des API renvoient vers index.html
-  // Cela permet au React Router de gérer les routes frontend
+
   app.get("*", (req, res) => {
     res.sendFile(path.join(frontendPath, "index.html"));
   });
 } else {
-  // Route test pour le développement
   app.get("/", (req, res) => res.send("✅ API Multi-Vendor Marketplace OK"));
 }
 
 // ======================
 // Associations Sequelize
 // ======================
-// User (vendeur) → Products
 User.hasMany(Product, { foreignKey: "sellerId" });
 Product.belongsTo(User, { foreignKey: "sellerId" });
-
-// User (acheteur) → Orders
 User.hasMany(Order, { foreignKey: "buyerId" });
 Order.belongsTo(User, { foreignKey: "buyerId" });
-
-// Orders ↔ Products via OrderItem
 Order.belongsToMany(Product, { through: OrderItem });
 Product.belongsToMany(Order, { through: OrderItem });
 
@@ -79,14 +70,13 @@ app.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
     console.log("✅ Connexion à PostgreSQL réussie");
-    
-    // Synchroniser toutes les tables (alter:true ajuste automatiquement)
+
     await sequelize.sync({ alter: true });
     console.log("✅ Tables synchronisées avec succès !");
-    
+
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📝 Mode: ${process.env.NODE_ENV || "development"}`);
-    
+
     if (process.env.NODE_ENV === "production") {
       console.log("🌐 Serving frontend from dist folder");
     }
@@ -94,3 +84,4 @@ app.listen(PORT, async () => {
     console.error("❌ Erreur de connexion à la DB :", err);
   }
 });
+
