@@ -166,14 +166,16 @@ export default function Register() {
           {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
           <button 
             type="submit" 
-            disabled={loading || password.length !== 4} 
+            disabled={loading} 
             style={{ 
-              backgroundColor: (loading || password.length !== 4) ? "#999" : "#1877f2", 
+              backgroundColor: loading ? "#666" : "#1877f2", 
               color: "white", 
               padding: "0.8rem", 
               border: "none", 
               borderRadius: "6px", 
-              cursor: (loading || password.length !== 4) ? "not-allowed" : "pointer" 
+              cursor: loading ? "not-allowed" : "pointer",
+              fontSize: "1rem",
+              fontWeight: "600"
             }}
           >
             {loading ? "Signing up..." : "Sign Up"}
