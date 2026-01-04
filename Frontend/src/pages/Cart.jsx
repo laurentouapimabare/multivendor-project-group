@@ -3,31 +3,28 @@ import { CartContext } from "../context/CartContext.jsx";
 
 export default function Cart() {
   const {
-    cart,
+    cartItems,
     addToCart,
+    decreaseQuantity,
     removeFromCart,
-    deleteFromCart,
     clearCart,
+    getTotalPrice,
   } = useContext(CartContext);
 
-  const totalPrice = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const totalPrice = getTotalPrice();
 
-  if (cart.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <div style={{ padding: "2rem", textAlign: "center" }}>
-        <h2>🛒 Votre panier est vide</h2>
+        <h2>🛒 Your cart is empty</h2>
       </div>
     );
   }
 
   return (
     <div style={{ padding: "2rem", maxWidth: "900px", margin: "auto" }}>
-      <h2 style={{ marginBottom: "1.5rem" }}>🛒 Mon Panier</h2>
-
-      {cart.map((item) => (
+      <h2 style={{ marginBottom: "1.5rem" }}>🛒 My Cart</h2>
+      {cartItems.map((item) => (
         <div
           key={item.id}
           style={{
@@ -38,37 +35,62 @@ export default function Cart() {
             padding: "1rem 0",
           }}
         >
-          {/* INFO PRODUIT */}
+          {/* PRODUCT INFO */}
           <div style={{ flex: 2 }}>
             <h4 style={{ margin: 0 }}>{item.name}</h4>
             <p style={{ margin: "0.3rem 0", color: "#555" }}>
-              Prix : {item.price} FCFA
+              Price: ${item.price}
             </p>
           </div>
 
-          {/* QUANTITÉ */}
+          {/* QUANTITY */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <button onClick={() => removeFromCart(item.id)}>-</button>
-            <span>{item.quantity}</span>
-            <button onClick={() => addToCart(item)}>+</button>
+            <button 
+              onClick={() => decreaseQuantity(item.id)}
+              style={{
+                backgroundColor: "#f0f0f0",
+                border: "1px solid #ddd",
+                padding: "0.4rem 0.8rem",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </button>
+            <span style={{ minWidth: "30px", textAlign: "center" }}>
+              {item.quantity}
+            </span>
+            <button 
+              onClick={() => addToCart(item)}
+              style={{
+                backgroundColor: "#f0f0f0",
+                border: "1px solid #ddd",
+                padding: "0.4rem 0.8rem",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </button>
           </div>
 
-          {/* TOTAL PRODUIT */}
+          {/* PRODUCT TOTAL */}
           <div style={{ width: "120px", textAlign: "right" }}>
-            <strong>{item.price * item.quantity} FCFA</strong>
+            <strong>${(item.price * item.quantity).toFixed(2)}</strong>
           </div>
 
-          {/* SUPPRIMER */}
+          {/* DELETE BUTTON */}
           <button
-            onClick={() => deleteFromCart(item.id)}
+            onClick={() => removeFromCart(item.id)}
             style={{
               marginLeft: "1rem",
-              backgroundColor: "red",
+              backgroundColor: "#ef4444",
               color: "white",
               border: "none",
               padding: "0.4rem 0.6rem",
               borderRadius: "4px",
               cursor: "pointer",
+              fontSize: "1.2em",
             }}
           >
             ❌
@@ -76,7 +98,7 @@ export default function Cart() {
         </div>
       ))}
 
-      {/* FOOTER PANIER */}
+      {/* CART FOOTER */}
       <div
         style={{
           marginTop: "2rem",
@@ -85,8 +107,7 @@ export default function Cart() {
           alignItems: "center",
         }}
       >
-        <h3>Total : {totalPrice} FCFA</h3>
-
+        <h3>Total: ${totalPrice.toFixed(2)}</h3>
         <div>
           <button
             onClick={clearCart}
@@ -98,11 +119,11 @@ export default function Cart() {
               marginRight: "1rem",
               borderRadius: "4px",
               cursor: "pointer",
+              fontWeight: "600",
             }}
           >
-            Vider le panier
+            Clear Cart
           </button>
-
           <button
             style={{
               backgroundColor: "#1877f2",
@@ -111,13 +132,13 @@ export default function Cart() {
               padding: "0.6rem 1.2rem",
               borderRadius: "4px",
               cursor: "pointer",
+              fontWeight: "600",
             }}
           >
-            Commander
+            Checkout
           </button>
         </div>
       </div>
     </div>
   );
 }
-
