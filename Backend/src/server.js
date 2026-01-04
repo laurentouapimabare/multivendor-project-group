@@ -29,17 +29,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ======================
+
 // Routes API
-// ======================
+
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 
-// ======================
+
 // Servir le Frontend en Production
-// ======================
+
 if (process.env.NODE_ENV === "production") {
-  // Assure-toi que ton frontend est buildé dans le dossier dist
+  
   const frontendPath = path.join(__dirname, "../../Frontend/dist");
   app.use(express.static(frontendPath));
   app.get("*", (req, res) => {
@@ -49,9 +49,9 @@ if (process.env.NODE_ENV === "production") {
   app.get("/", (req, res) => res.send(" API Multi-Vendor Marketplace OK"));
 }
 
-// ======================
+
 // Associations Sequelize
-// ======================
+
 User.hasMany(Product, { foreignKey: "sellerId" });
 Product.belongsTo(User, { foreignKey: "sellerId" });
 User.hasMany(Order, { foreignKey: "buyerId" });
@@ -59,9 +59,9 @@ Order.belongsTo(User, { foreignKey: "buyerId" });
 Order.belongsToMany(Product, { through: OrderItem });
 Product.belongsToMany(Order, { through: OrderItem });
 
-// ======================
+
 // Lancer le serveur
-// ======================
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {

@@ -1,12 +1,10 @@
-// src/pages/Login.jsx
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 export default function Login() {
-  const { login } = useContext(AuthContext);  // ✅ Changement ici
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -23,16 +21,14 @@ export default function Login() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
-    console.log("Tentative de connexion avec :", { email, password });
+    console.log("Login attempt with:", { email, password });
 
     try {
-      // ✅ Utilisez directement la fonction login du contexte
+      // Use login function from context
       const user = await login({ email: email.trim(), password: password.trim() });
       
-      console.log("Connexion réussie :", user);
-
-      // ✅ Redirection selon le rôle
+      console.log("Login successful:", user);
+      // Redirect based on role
       switch (user.role) {
         case "SELLER":
           navigate("/seller/dashboard");
@@ -44,8 +40,8 @@ export default function Login() {
           navigate("/");
       }
     } catch (err) {
-      console.error("Erreur login :", err);
-      setError(err.message || "Erreur de connexion");
+      console.error("Login error:", err);
+      setError(err.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -78,9 +74,8 @@ export default function Login() {
             marginBottom: "2rem",
           }}
         >
-          Connexion
+          Login
         </h1>
-
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
@@ -93,18 +88,15 @@ export default function Login() {
             required
             style={inputStyle}
           />
-
           <input
             type="password"
-            placeholder="Mot de passe"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             style={inputStyle}
           />
-
           {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
-
           <button
             type="submit"
             disabled={loading}
@@ -118,16 +110,15 @@ export default function Login() {
               cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? "Connexion..." : "Se connecter"}
+            {loading ? "Logging in..." : "Login"}
           </button>
-
           <p style={{ textAlign: "center", color: "#666", fontSize: "0.9rem" }}>
-            Pas encore de compte ?{" "}
+            Don't have an account?{" "}
             <span
               style={{ color: "#1877f2", cursor: "pointer" }}
               onClick={() => navigate("/register")}
             >
-               Inscription
+              Sign Up
             </span>
           </p>
         </form>

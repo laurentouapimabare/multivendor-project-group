@@ -5,7 +5,7 @@ const SellerDashboard = () => {
     {
       id: 1,
       name: "iPhone 14 Pro",
-      description: "Smartphone Apple dernière génération",
+      description: "Latest generation Apple smartphone",
       price: 1099,
       stock: 15,
       category: "Electronics",
@@ -14,7 +14,7 @@ const SellerDashboard = () => {
     {
       id: 2,
       name: "Samsung Galaxy S23",
-      description: "Téléphone Android haut de gamme",
+      description: "High-end Android phone",
       price: 849,
       stock: 23,
       category: "Electronics",
@@ -23,7 +23,7 @@ const SellerDashboard = () => {
     {
       id: 3,
       name: "AirPods Pro",
-      description: "Écouteurs sans fil avec réduction de bruit",
+      description: "Wireless headphones with noise cancellation",
       price: 249,
       stock: 5,
       category: "Electronics",
@@ -66,19 +66,19 @@ const SellerDashboard = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validation de la taille (max 5MB)
+      // Image size validation (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert("L'image ne doit pas dépasser 5MB");
+        alert("Image must not exceed 5MB");
         return;
       }
 
-      // Validation du type
+      // File type validation
       if (!file.type.startsWith('image/')) {
-        alert("Veuillez sélectionner une image valide");
+        alert("Please select a valid image");
         return;
       }
 
-      // Créer une prévisualisation
+      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -94,7 +94,7 @@ const SellerDashboard = () => {
 
   const handleAddProduct = () => {
     if (!newProduct.name || !newProduct.price || !newProduct.stock) {
-      alert("Veuillez remplir tous les champs obligatoires (nom, prix, stock)");
+      alert("Please fill in all required fields (name, price, stock)");
       return;
     }
 
@@ -112,7 +112,7 @@ const SellerDashboard = () => {
     setNewProduct({ name: "", description: "", price: "", stock: "", category: "", image: null });
     setImagePreview(null);
     setShowAddForm(false);
-    alert("✅ Produit ajouté avec succès !");
+    alert("✅ Product added successfully!");
   };
 
   const handleEditProduct = (product) => {
@@ -123,7 +123,7 @@ const SellerDashboard = () => {
 
   const handleUpdateProduct = () => {
     if (!editingProduct.name || !editingProduct.price || !editingProduct.stock) {
-      alert("Veuillez remplir tous les champs obligatoires");
+      alert("Please fill in all required fields");
       return;
     }
 
@@ -137,7 +137,7 @@ const SellerDashboard = () => {
     
     setEditingProduct(null);
     setImagePreview(null);
-    alert("✅ Produit modifié avec succès !");
+    alert("✅ Product updated successfully!");
   };
 
   const handleCancelEdit = () => {
@@ -146,9 +146,9 @@ const SellerDashboard = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("⚠️ Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+    if (window.confirm("⚠️ Are you sure you want to delete this product?")) {
       setProducts(products.filter(p => p.id !== id));
-      alert("🗑️ Produit supprimé avec succès");
+      alert("🗑️ Product deleted successfully");
     }
   };
 
@@ -161,29 +161,29 @@ const SellerDashboard = () => {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <h1 style={styles.title}>🛒 Seller Dashboard</h1>
-        <p style={styles.subtitle}>Gérez vos produits et votre inventaire</p>
+        <h1 style={styles.title}> Seller Dashboard</h1>
+        <p style={styles.subtitle}>Manage your products and inventory</p>
       </div>
 
       <div style={styles.content}>
-        {/* Bouton pour afficher/masquer le formulaire */}
+        {/* Button to show/hide form */}
         {!editingProduct && (
           <button 
             onClick={() => setShowAddForm(!showAddForm)}
             style={styles.toggleButton}
           >
-            {showAddForm ? "✕ Annuler" : "➕ Ajouter un Nouveau Produit"}
+            {showAddForm ? "✕ Cancel" : "➕ Add New Product"}
           </button>
         )}
 
-        {/* Formulaire d'ajout de produit */}
+        {/* Add product form */}
         {showAddForm && !editingProduct && (
           <div style={styles.card}>
-            <h2 style={styles.cardTitle}>➕ Ajouter un Nouveau Produit</h2>
+            <h2 style={styles.cardTitle}>➕ Add New Product</h2>
             <div style={styles.form}>
               <div style={styles.formRow}>
                 <div style={styles.formGroup}>
-                  <label style={styles.label}>Nom du Produit *</label>
+                  <label style={styles.label}>Product Name *</label>
                   <input
                     name="name"
                     placeholder="Ex: iPhone 14 Pro"
@@ -194,14 +194,14 @@ const SellerDashboard = () => {
                 </div>
 
                 <div style={styles.formGroup}>
-                  <label style={styles.label}>Catégorie</label>
+                  <label style={styles.label}>Category</label>
                   <select
                     name="category"
                     value={newProduct.category}
                     onChange={handleChange}
                     style={styles.input}
                   >
-                    <option value="">Sélectionner une catégorie</option>
+                    <option value="">Select a category</option>
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
@@ -213,7 +213,7 @@ const SellerDashboard = () => {
                 <label style={styles.label}>Description</label>
                 <textarea
                   name="description"
-                  placeholder="Décrivez votre produit en détail..."
+                  placeholder="Describe your product in detail..."
                   value={newProduct.description}
                   onChange={handleChange}
                   style={{...styles.input, minHeight: '100px', resize: 'vertical'}}
@@ -222,7 +222,7 @@ const SellerDashboard = () => {
 
               <div style={styles.formRow}>
                 <div style={styles.formGroup}>
-                  <label style={styles.label}>Prix (FCFA) *</label>
+                  <label style={styles.label}>Price (FCFA) *</label>
                   <input
                     name="price"
                     placeholder="0.00"
@@ -248,7 +248,7 @@ const SellerDashboard = () => {
               </div>
 
               <div style={styles.formGroup}>
-                <label style={styles.label}>Image du Produit</label>
+                <label style={styles.label}>Product Image</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -267,7 +267,7 @@ const SellerDashboard = () => {
                       }}
                       style={styles.removeImageBtn}
                     >
-                      ✕ Supprimer l'image
+                      ✕ Remove Image
                     </button>
                   </div>
                 )}
@@ -275,24 +275,24 @@ const SellerDashboard = () => {
 
               <div style={styles.formActions}>
                 <button onClick={handleAddProduct} style={styles.addButton}>
-                  ✓ Ajouter le Produit
+                  ✓ Add Product
                 </button>
                 <button onClick={resetForm} style={styles.cancelButton}>
-                  Annuler
+                  Cancel
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Formulaire d'édition de produit */}
+        {/* Edit product form */}
         {editingProduct && (
           <div style={{...styles.card, border: '3px solid #667eea'}}>
-            <h2 style={styles.cardTitle}>✏️ Modifier le Produit</h2>
+            <h2 style={styles.cardTitle}>✏️ Edit Product</h2>
             <div style={styles.form}>
               <div style={styles.formRow}>
                 <div style={styles.formGroup}>
-                  <label style={styles.label}>Nom du Produit *</label>
+                  <label style={styles.label}>Product Name *</label>
                   <input
                     name="name"
                     placeholder="Ex: iPhone 14 Pro"
@@ -303,14 +303,14 @@ const SellerDashboard = () => {
                 </div>
 
                 <div style={styles.formGroup}>
-                  <label style={styles.label}>Catégorie</label>
+                  <label style={styles.label}>Category</label>
                   <select
                     name="category"
                     value={editingProduct.category}
                     onChange={handleChange}
                     style={styles.input}
                   >
-                    <option value="">Sélectionner une catégorie</option>
+                    <option value="">Select a category</option>
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
@@ -322,7 +322,7 @@ const SellerDashboard = () => {
                 <label style={styles.label}>Description</label>
                 <textarea
                   name="description"
-                  placeholder="Décrivez votre produit en détail..."
+                  placeholder="Describe your product in detail..."
                   value={editingProduct.description}
                   onChange={handleChange}
                   style={{...styles.input, minHeight: '100px', resize: 'vertical'}}
@@ -331,7 +331,7 @@ const SellerDashboard = () => {
 
               <div style={styles.formRow}>
                 <div style={styles.formGroup}>
-                  <label style={styles.label}>Prix (FCFA) *</label>
+                  <label style={styles.label}>Price (FCFA) *</label>
                   <input
                     name="price"
                     placeholder="0.00"
@@ -357,7 +357,7 @@ const SellerDashboard = () => {
               </div>
 
               <div style={styles.formGroup}>
-                <label style={styles.label}>Image du Produit</label>
+                <label style={styles.label}>Product Image</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -376,7 +376,7 @@ const SellerDashboard = () => {
                       }}
                       style={styles.removeImageBtn}
                     >
-                      ↺ Réinitialiser l'image
+                      ↺ Reset Image
                     </button>
                   </div>
                 )}
@@ -384,23 +384,23 @@ const SellerDashboard = () => {
 
               <div style={styles.formActions}>
                 <button onClick={handleUpdateProduct} style={styles.updateButton}>
-                  ✓ Enregistrer les Modifications
+                  ✓ Save Changes
                 </button>
                 <button onClick={handleCancelEdit} style={styles.cancelButton}>
-                  Annuler
+                  Cancel
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Liste des produits */}
+        {/* Products list */}
         <div style={styles.card}>
           <div style={styles.cardHeader}>
-            <h2 style={styles.cardTitle}>📦 Mes Produits ({products.length})</h2>
+            <h2 style={styles.cardTitle}>📦 My Products ({products.length})</h2>
             <div style={styles.stats}>
               <span style={styles.statBadge}>
-                ⚠️ Stock faible: {products.filter(p => p.stock < 10).length}
+                ⚠️ Low Stock: {products.filter(p => p.stock < 10).length}
               </span>
             </div>
           </div>
@@ -408,8 +408,8 @@ const SellerDashboard = () => {
           <div style={styles.productsGrid}>
             {products.length === 0 ? (
               <div style={styles.emptyState}>
-                <p style={styles.emptyMessage}>📦 Aucun produit disponible</p>
-                <p style={styles.emptySubtext}>Ajoutez votre premier produit pour commencer !</p>
+                <p style={styles.emptyMessage}>📦 No products available</p>
+                <p style={styles.emptySubtext}>Add your first product to get started!</p>
               </div>
             ) : (
               products.map((p) => (
@@ -425,7 +425,7 @@ const SellerDashboard = () => {
                     />
                     {p.stock < 10 && (
                       <div style={styles.lowStockBadge}>
-                        ⚠️ Stock Faible
+                        ⚠️ Low Stock
                       </div>
                     )}
                   </div>
@@ -452,13 +452,13 @@ const SellerDashboard = () => {
                       style={styles.editButton}
                       onClick={() => handleEditProduct(p)}
                     >
-                      ✏️ Modifier
+                      ✏️ Edit
                     </button>
                     <button 
                       style={styles.deleteButton}
                       onClick={() => handleDelete(p.id)}
                     >
-                      🗑️ Supprimer
+                      🗑️ Delete
                     </button>
                   </div>
                 </div>
