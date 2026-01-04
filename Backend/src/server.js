@@ -40,15 +40,13 @@ app.use("/api/auth", authRoutes);
 // ======================
 if (process.env.NODE_ENV === "production") {
   // Assure-toi que ton frontend est buildé dans le dossier dist
-  const frontendPath = path.join(__dirname, "../Frontend/dist");
-
+  const frontendPath = path.join(__dirname, "../../Frontend/dist");
   app.use(express.static(frontendPath));
-
   app.get("*", (req, res) => {
     res.sendFile(path.join(frontendPath, "index.html"));
   });
 } else {
-  app.get("/", (req, res) => res.send("✅ API Multi-Vendor Marketplace OK"));
+  app.get("/", (req, res) => res.send(" API Multi-Vendor Marketplace OK"));
 }
 
 // ======================
@@ -69,19 +67,15 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Connexion à PostgreSQL réussie");
-
+    console.log(" Connexion à PostgreSQL réussie");
     await sequelize.sync({ alter: true });
-    console.log("✅ Tables synchronisées avec succès !");
-
-    console.log(`🚀 Server running on port ${PORT}`);
-    console.log(`📝 Mode: ${process.env.NODE_ENV || "development"}`);
-
+    console.log(" Tables synchronisées avec succès !");
+    console.log(`Server running on port ${PORT}`);
+    console.log(` Mode: ${process.env.NODE_ENV || "development"}`);
     if (process.env.NODE_ENV === "production") {
-      console.log("🌐 Serving frontend from dist folder");
+      console.log(" Serving frontend from dist folder");
     }
   } catch (err) {
-    console.error("❌ Erreur de connexion à la DB :", err);
+    console.error(" Erreur de connexion à la DB :", err);
   }
 });
-

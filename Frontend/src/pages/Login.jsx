@@ -127,7 +127,7 @@ export default function Login() {
               style={{ color: "#1877f2", cursor: "pointer" }}
               onClick={() => navigate("/register")}
             >
-              Inscription
+               Inscription
             </span>
           </p>
         </form>
