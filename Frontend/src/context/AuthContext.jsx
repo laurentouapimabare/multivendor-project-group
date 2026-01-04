@@ -1,7 +1,11 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
+
+const API_BASE_URL = 
+  process.env.NODE_ENV === "production"
+    ? "https://multivendor-project-group.onrender.com/api"
+    : "http://localhost:5000/api";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // info utilisateur
@@ -18,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   // Register via backend
   const register = async ({ name, email, password, role }) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, role }),
@@ -34,20 +38,17 @@ export const AuthProvider = ({ children }) => {
   // Login via backend
   const login = async ({ email, password }) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur de connexion");
-
       setToken(data.token);
       setUser(data.user);
-
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
       return data.user;
     } catch (err) {
       throw err;
@@ -67,4 +68,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
