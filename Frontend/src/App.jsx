@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useContext, useState } from "react";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext.jsx";
@@ -18,12 +17,14 @@ import './index.css';
 
 function App() {
   const { user, logout } = useContext(AuthContext);
-  const { cartCount } = useContext(CartContext);
+  const cartContext = useContext(CartContext);
+  const getCartCount = cartContext?.getCartCount || (() => 0);
 
   const [search, setSearch] = useState("");
   const [hoverCategories, setHoverCategories] = useState(false);
 
   const categories = ["Electronics", "Fashion", "Sport", "Home"];
+  const cartCount = getCartCount();
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", minHeight: "100vh", backgroundColor: "#ffffff" }}>
@@ -45,7 +46,7 @@ function App() {
             >
               <span style={{ color: "white", cursor: "pointer", fontWeight: "bold" }}>{item}</span>
               {hoverCategories && (
-                <div style={{ position: "absolute", top: "100%", backgroundColor: "white", borderRadius: "5px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}>
+                <div style={{ position: "absolute", top: "100%", backgroundColor: "white", borderRadius: "5px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)", zIndex: 100 }}>
                   {categories.map((cat) => (
                     <Link 
                       key={cat} 
@@ -72,7 +73,7 @@ function App() {
         <div style={{ position: "relative" }}>
           <input
             type="text"
-            placeholder="Rechercher..."
+            placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{ padding: "0.4rem 2rem 0.4rem 0.7rem", borderRadius: "20px", border: "none", outline: "none" }}
@@ -84,14 +85,14 @@ function App() {
           <Link to="/register"><FaUser style={{ color: "white" }}/></Link>
         ) : (
           <>
-            <span style={{ color: "white", fontWeight: "bold" }}>Bonjour, {user.name}</span>
-            <button onClick={logout} style={{ fontWeight: "bold" }}>Logout</button>
+            <span style={{ color: "white", fontWeight: "bold" }}>Hello, {user.name}</span>
+            <button onClick={logout} style={{ fontWeight: "bold", backgroundColor: "#0d47a1", color: "white", border: "none", padding: "0.5rem 1rem", borderRadius: "4px", cursor: "pointer" }}>Logout</button>
           </>
         )}
 
         {user?.role === "BUYER" && (
           <Link to="/cart" style={{ position: "relative" }}>
-            <FaShoppingCart style={{ color: "white" }} />
+            <FaShoppingCart style={{ color: "white", fontSize: "1.3em" }} />
             {cartCount > 0 && (
               <span style={{ position: "absolute", top: "-10px", right: "-12px", background: "red", color: "white", borderRadius: "50%", padding: "4px 7px", fontSize: "0.7rem", fontWeight: "bold" }}>
                 {cartCount}
@@ -118,4 +119,3 @@ function App() {
 }
 
 export default App;
-
