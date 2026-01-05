@@ -3,13 +3,12 @@ import React, { createContext, useMemo, useState } from "react";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
-  /* ➕ Ajouter un produit au panier */
+  /* ➕ Add product to cart */
   const addToCart = (product) => {
-    setCart((prevCart) => {
+    setCartItems((prevCart) => {
       const existing = prevCart.find((item) => item.id === product.id);
-
       if (existing) {
         return prevCart.map((item) =>
           item.id === product.id
@@ -17,14 +16,13 @@ export const CartProvider = ({ children }) => {
             : item
         );
       }
-
       return [...prevCart, { ...product, quantity: 1 }];
     });
   };
 
-  /* ➖ Diminuer la quantité */
+  /* ➖ Decrease quantity */
   const removeFromCart = (productId) => {
-    setCart((prevCart) =>
+    setCartItems((prevCart) =>
       prevCart
         .map((item) =>
           item.id === productId
@@ -35,41 +33,41 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  /* ❌ Supprimer complètement un produit */
+  /* ❌ Remove product completely */
   const deleteFromCart = (productId) => {
-    setCart((prevCart) =>
+    setCartItems((prevCart) =>
       prevCart.filter((item) => item.id !== productId)
     );
   };
 
-  /* 🧹 Vider le panier */
-  const clearCart = () => setCart([]);
+  /* 🧹 Clear cart */
+  const clearCart = () => setCartItems([]);
 
-  /* 🔢 Nombre total d’articles (badge panier) */
-  const cartCount = useMemo(
-    () => cart.reduce((sum, item) => sum + item.quantity, 0),
-    [cart]
+  /* 🔢 Total number of items (cart badge) */
+  const getCartCount = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
+    [cartItems]
   );
 
-  /* 💰 Total du panier (utile pour paiement plus tard) */
+  /* 💰 Cart total (useful for payment later) */
   const cartTotal = useMemo(
     () =>
-      cart.reduce(
+      cartItems.reduce(
         (total, item) => total + item.price * item.quantity,
         0
       ),
-    [cart]
+    [cartItems]
   );
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        cartItems,
         addToCart,
         removeFromCart,
         deleteFromCart,
         clearCart,
-        cartCount,
+        getCartCount,
         cartTotal,
       }}
     >
@@ -77,4 +75,3 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
-
